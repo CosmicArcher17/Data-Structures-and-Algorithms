@@ -1,85 +1,48 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<iostream>
+#include<stdlib.h>
+using  namespace std;
 
-struct node{
+struct Node{
     int data;
-    struct node* link;
-}*head, *temp,*newnode;
+    struct Node *link;
+}*temp;
+Node *head=NULL;
 
-void createnode(){
-    
-    newnode=(struct node*)malloc(sizeof(struct node));
-    temp=head;
-
-    printf("Enter data for node:\n");
-    scanf("%d",&newnode->data);
-    newnode->link=NULL;
-
-    while(temp->link!=NULL){
-        temp=temp->link;
+void createnode(Node *node,int value){
+    if(node==NULL){
+        node=(struct Node*)malloc(sizeof(struct Node));
+        node->data=value;
+        node->link=NULL;
+        head=node;
+        return;
     }
-    temp->link=newnode;
-
-}
-void insertb(){
-    newnode=(struct node*)malloc(sizeof(struct node));
-
-    printf("Enter value for new head node:\n");
-    scanf("%d",&newnode->data);
-    newnode->link=head;
-
-    head=newnode;
-}
-
-void inserte(){
-    newnode=(struct node*)malloc(sizeof(struct node));
-    printf("Enter value for new end node:\n");
-    scanf("%d",&newnode->data);
-    newnode->link=NULL;
-    temp=head;
-
-    while(temp->link!=NULL){
-        temp=temp->link;
+    else if(node->link==NULL){
+        struct Node* p=(struct Node*)malloc(sizeof(struct Node));
+        p->data=value;
+        p->link=NULL;
+        node->link=p;
+        return;
     }
-    temp->link=newnode;
-}
-
-void delend(){
-    temp=head;
-    while(temp->link->link!=NULL){
-        temp=temp->link;
+    else if(node->link!=NULL){
+        node=node->link;
+        createnode(node,value);
     }
-    temp->link=NULL;
 }
-
-void delfir(){
-    temp=head;
-    temp=temp->link;
-    head=temp;
-}
-
-void display(){
+void disp(struct Node* head){
     temp=head;
     while(temp!=NULL){
-        printf("%d\n",temp->data);
+        cout<<temp->data<<" ";
         temp=temp->link;
     }
-    
 }
+
 int main(){
-    head=(struct node*)malloc(sizeof(struct node));
-
-    printf("Enter head node data:\n");
-    scanf("%d",&head->data);
-    head->link=newnode;
-
-    
-    for(int i=0;i<3;i++){
-        createnode();
+    int n;
+    cin>>n;
+    int item;
+    for(int i=0;i<n;i++){
+        cin>>item;
+        createnode(head,item);
     }
-    insertb();
-    inserte();
-    delend();
-    delfir();
-    display();
+    disp(head);
 }
